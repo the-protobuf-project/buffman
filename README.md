@@ -246,4 +246,4 @@ Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for detai
 
 ---
 <strong>Built with ❤️ by Machani Robotics</strong>
-| Open Source Observability for Everyone
+| Open Source Serialization and Deserialization for Everyone
