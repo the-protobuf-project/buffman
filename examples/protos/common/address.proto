@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package common;
+
+option go_package = "github.com/yourorg/protos/common";
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+  string postal_code = 4;
+  string country = 5;
+}

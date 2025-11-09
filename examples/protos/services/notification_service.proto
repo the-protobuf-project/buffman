@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package services;
+
+import "common/timestamp.proto";
+import "common/status.proto";
+import "services/user_service.proto";
+
+option go_package = "github.com/yourorg/protos/services";
+
+enum NotificationType {
+  NOTIFICATION_TYPE_UNKNOWN = 0;
+  NOTIFICATION_TYPE_EMAIL = 1;
+  NOTIFICATION_TYPE_SMS = 2;
+  NOTIFICATION_TYPE_PUSH = 3;
+  NOTIFICATION_TYPE_IN_APP = 4;
+}
+
+enum Priority {
+  PRIORITY_LOW = 0;
+  PRIORITY_MEDIUM = 1;
+  PRIORITY_HIGH = 2;
+  PRIORITY_URGENT = 3;
+}
+
+message Notification {
+  string notification_id = 1;
+  string recipient_user_id = 2;
+  NotificationType type = 3;
+  string title = 4;
+  string content = 5;
+  Priority priority = 6;
+  common.Status status = 7;
+  common.Timestamp created_at = 8;
+  common.Timestamp sent_at = 9;
+  map<string, string> metadata = 10;
+}
+
+message SendNotificationRequest {
+  string recipient_user_id = 1;
+  NotificationType type = 2;
+  string title = 3;
+  string content = 4;
+  Priority priority = 5;
+  map<string, string> metadata = 6;
+}
+
+message SendNotificationResponse {
+  string notification_id = 1;
+  bool success = 2;
+  string message = 3;
+}
+
+message GetUserNotificationsRequest {
+  string user_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+  common.Status status_filter = 4;
+}
+
+message GetUserNotificationsResponse {
+  repeated Notification notifications = 1;
+  int32 total_count = 2;
+  User user_info = 3; // Dependency on user_service.proto
+}
+
+service NotificationService {
+  rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
+  rpc GetUserNotifications(GetUserNotificationsRequest) returns (GetUserNotificationsResponse);
+  rpc MarkNotificationAsRead(MarkNotificationAsReadRequest) returns (MarkNotificationAsReadResponse);
+}
+
+message MarkNotificationAsReadRequest {
+  string notification_id = 1;
+  string user_id = 2;
+}
+
+message MarkNotificationAsReadResponse {
+  bool success = 1;
+  string message = 2;
+}

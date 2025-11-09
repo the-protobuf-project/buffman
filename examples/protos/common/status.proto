@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package common;
+
+option go_package = "github.com/yourorg/protos/common";
+
+enum Status {
+  STATUS_UNKNOWN = 0;
+  STATUS_ACTIVE = 1;
+  STATUS_INACTIVE = 2;
+  STATUS_PENDING = 3;
+  STATUS_SUSPENDED = 4;
+}

@@ -1,0 +1,109 @@
+export:
+NANOBUFFER_DIR := "../examples/nanobuffers"
+FLATBUFFER_DIR := "../examples/flatbuffers"
+GO_DIR := "../examples/go/fb"
+GO_MODULE := "example.com/buffman/fb"
+JAVA_DIR := "../examples/java"
+JAVA_PACKAGE_PREFIX := "com.fb"
+KOTLIN_DIR := "../examples/kotlin"
+CPP_DIR := "../examples/cpp"
+LUA_DIR := "../examples/lua"
+PHP_DIR := "../examples/php"
+SWIFT_DIR := "../examples/swift"
+DART_DIR := "../examples/dart"
+CSHARP_DIR := "../examples/csharp"
+PYTHON_DIR := "../examples/python"
+RUST_DIR := "../examples/rust"
+TS_DIR := "../examples/ts"
+NIM_DIR := "../examples/nim"
+PROTO_DIR := "../examples/protos"
+
+build:
+    go build -o ../buffman ../main.go
+
+convert-flatbuffers:
+    ../buffman convert flatbuffers -I "{{PROTO_DIR}}" -o "{{FLATBUFFER_DIR}}"
+
+convert-nanobuffers:
+    ../buffman convert nanobuffers -I "{{PROTO_DIR}}" -o "{{NANOBUFFER_DIR}}"
+
+convert: convert-flatbuffers convert-nanobuffers
+
+generate-go:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{GO_DIR}} -l go -m "{{GO_MODULE}}"
+
+generate-java:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{JAVA_DIR}} -l java -m "{{JAVA_PACKAGE_PREFIX}}"
+
+generate-cpp:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{CPP_DIR}} -l cpp 
+
+generate-kotlin:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{KOTLIN_DIR}} -l kotlin
+
+generate-php:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{PHP_DIR}} -l php
+
+generate-swift:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{SWIFT_DIR}} -l swift
+
+generate-dart:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{DART_DIR}} -l dart
+
+generate-csharp:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{CSHARP_DIR}} -l csharp
+
+generate-python:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{PYTHON_DIR}} -l python
+
+generate-rust:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{RUST_DIR}} -l rust
+
+generate-ts:
+    ../buffman generate flatbuffers -I "{{FLATBUFFER_DIR}}" -o {{TS_DIR}} -l ts
+
+generate: generate-go generate-java generate-cpp generate-kotlin generate-php generate-swift generate-dart generate-csharp generate-python generate-rust generate-ts 
+
+rm-nanobuffers: 
+    rm -rf nanobuffers
+
+rm-flatbuffers:
+    rm -rf flatbuffers
+
+rm-go:
+    find go/ -mindepth 1 ! -name 'go.mod' ! -name 'go.sum' -delete
+
+rm-java:
+    rm -rf java/*
+
+rm-kotlin:
+    rm -rf kotlin/*
+
+rm-cpp:
+    rm -rf cpp/*
+
+rm-php:
+    rm -rf php/*
+
+rm-swift:
+    rm -rf swift/*
+
+rm-dart:
+    rm -rf dart/*
+
+rm-csharp:
+    rm -rf csharp/*
+
+rm-python:
+    rm -rf python/*
+
+rm-rust:
+    rm -rf rust/*
+
+rm-ts:
+    rm -rf ts/*
+
+
+rm: rm-nanobuffers rm-flatbuffers rm-go rm-java rm-kotlin rm-cpp rm-php rm-swift rm-dart rm-csharp rm-python rm-rust rm-ts 
+
+run: build rm convert generate

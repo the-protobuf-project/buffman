@@ -1,0 +1,28 @@
+{
+    "name": "buffmandev",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "mounts": [
+        {
+            "source": "${localEnv:HOME}/.ssh",
+            "target": "/home/developer/.ssh",
+            "type": "bind"
+        }
+    ],
+    "runArgs": [
+        "--net=host"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "zxh404.vscode-proto3",
+                "eamodio.gitlens",
+                "ms-azuretools.vscode-docker",
+                "nefrob.vscode-just-syntax",
+                "golang.go",
+                "gaborv.flatbuffers"
+            ]
+        }
+    }
+}
