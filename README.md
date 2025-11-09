@@ -240,7 +240,10 @@ plugins:
 
 ## License
 
-Buffman is open source under the MIT License. See `LICENSE` for full details.
+Copyright © 2025 Machani Robotics
 
-> [!NOTE]
-> For full documentation and advanced usage, [read the DOCS](./docs/)
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.
+
+---
+<strong>Built with ❤️ by Machani Robotics</strong>
+| Open Source Observability for Everyone
