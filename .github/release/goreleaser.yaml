@@ -1,0 +1,118 @@
+version: 2
+project_name: buffman
+
+before:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+builds:
+  - id: buffman
+    binary: buffman
+    main: ./
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X github.com/the-protobuf-project/buffman/internal.Version={{.Version}}
+
+archives:
+  - id: buffman-archive
+    formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- if eq .Arch "amd64" }}amd64
+      {{- else if eq .Arch "arm64" }}arm64
+      {{- else }}{{ .Arch }}{{ end }}
+    files:
+      - LICENSE
+      - README.md
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  version_template: '{{ incpatch .Version }}-next'
+
+changelog:
+  sort: asc
+  use: github
+  groups:
+    - title: Features
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 0
+    - title: 'Bug Fixes'
+      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+      order: 1
+    - title: 'Performance Improvements'
+      regexp: '^.*?perf(\([[:word:]]+\))??!?:.+$'
+      order: 2
+    - title: Others
+      order: 999
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - typo
+
+# Homebrew formula, generated and committed to the tap on each release.
+# The url + sha256 for every platform are filled in automatically from the
+# archives above, so there is no checksum to hand-maintain.
+brews:
+  - name: buffman
+    repository:
+      owner: the-protobuf-project
+      name: homebrew-tap
+      token: '{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}'
+    directory: Formula
+    homepage: 'https://github.com/the-protobuf-project/buffman'
+    description: 'CLI tool that wraps flatc to convert .proto files to .fbs and generate multi-language code from a declarative YAML config'
+    license: "Apache-2.0"
+    ids:
+      - buffman-archive
+    install: |
+      bin.install "buffman"
+    test: |
+      system "#{bin}/buffman", "--help"
+
+release:
+  github:
+    owner: the-protobuf-project
+    name: buffman
+  draft: false
+  prerelease: auto
+  name_template: 'v{{.Version}}'
+  header: |
+    ## What's New in v{{.Version}}
+
+    `buffman` wraps the `flatc` compiler to convert `.proto` files to `.fbs`
+    and generate multi-language code from a declarative YAML config.
+
+    ### Installation
+
+    #### Homebrew
+    ```bash
+    brew install the-protobuf-project/tap/buffman
+    ```
+
+    #### curl
+    ```bash
+    curl -sSL https://raw.githubusercontent.com/the-protobuf-project/buffman/main/scripts/install.sh | bash
+    ```
+
+    #### Docker
+    ```bash
+    docker pull ghcr.io/the-protobuf-project/buffman:v{{.Version}}
+    ```

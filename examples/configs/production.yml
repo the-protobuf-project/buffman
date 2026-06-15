@@ -1,0 +1,36 @@
+version: v1
+
+inputs:
+  - name: source
+    path: "./protos"
+
+  # Optional: pin an external proto dependency by commit
+  # - name: googleprotobuf
+  #   remote: https://github.com/protocolbuffers/protobuf
+  #   commit: 9dd4b66ddd10dcb5e5d3c4e8a7d3019dda26c535
+
+plugins:
+  - name: flatbuffers
+    out: "./flatbuffers"
+    languages:
+      - language: go
+        out: "./go/fb"
+        opt:
+          - go_package=example.com/buffman/fb
+
+      - language: cpp
+        out: "./cpp"
+
+      - language: java
+        out: "./java"
+        opt:
+          - java_package_prefix=com.fb
+
+      - language: ts
+        out: "./ts"
+
+      - language: python
+        out: "./python"
+
+  - name: nanobuffers
+    out: "./nanobuffers"

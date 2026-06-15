@@ -1,17 +1,14 @@
 #!/bin/bash
+set -euo pipefail
 
-# Set the version
-BUFFMAN_VERSION="1.0.0"
+BUFFMAN_VERSION="${BUFFMAN_VERSION:-1.0.0}"
+INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 
-# Detect operating system
+# Detect OS
 OS=$(uname -s)
-case $OS in
-    Linux)
-        OS_NAME="linux"
-        ;;
-    Darwin)
-        OS_NAME="darwin"
-        ;;
+case "$OS" in
+    Linux)  OS_NAME="linux" ;;
+    Darwin) OS_NAME="darwin" ;;
     *)
         echo "Unsupported operating system: $OS"
         exit 1
@@ -20,38 +17,30 @@ esac
 
 # Detect architecture
 ARCH=$(uname -m)
-case $ARCH in
-    x86_64)
-        ARCH_NAME="x86-64"
-        ;;
-    arm64)
-        ARCH_NAME="aarch64"
-        ;;
+case "$ARCH" in
+    x86_64)  ARCH_NAME="amd64" ;;
+    arm64 | aarch64) ARCH_NAME="arm64" ;;
     *)
         echo "Unsupported architecture: $ARCH"
         exit 1
         ;;
 esac
 
-# Construct download URL
-DOWNLOAD_URL="https://github.com/the-protobuf-project/buffman/releases/download/v$BUFFMAN_VERSION/buffman-$OS_NAME-$ARCH_NAME-$BUFFMAN_VERSION"
+ARCHIVE="buffman_${BUFFMAN_VERSION}_${OS_NAME}_${ARCH_NAME}.tar.gz"
+DOWNLOAD_URL="https://github.com/the-protobuf-project/buffman/releases/download/v${BUFFMAN_VERSION}/${ARCHIVE}"
+TMP_DIR=$(mktemp -d)
 
-echo "Downloading buffman for $OS_NAME-$ARCH_NAME..."
-echo "URL: $DOWNLOAD_URL"
+echo "Downloading buffman v${BUFFMAN_VERSION} for ${OS_NAME}/${ARCH_NAME}..."
 
-# Download the binary
-curl -L "$DOWNLOAD_URL" -o buffman
-
-# Check if download was successful
-if [ $? -ne 0 ]; then
-    echo "Failed to download buffman"
+if ! curl -fsSL "$DOWNLOAD_URL" -o "${TMP_DIR}/${ARCHIVE}"; then
+    echo "Failed to download buffman from: $DOWNLOAD_URL"
+    rm -rf "$TMP_DIR"
     exit 1
 fi
 
-# Move to /usr/local/bin and make executable
-sudo mv buffman /usr/local/bin/
-sudo chmod +x /usr/local/bin/buffman
+tar -xzf "${TMP_DIR}/${ARCHIVE}" -C "$TMP_DIR"
+sudo install -m 0755 "${TMP_DIR}/buffman" "${INSTALL_DIR}/buffman"
 
-echo "buffman installed successfully!"
-echo "Version: $BUFFMAN_VERSION"
-echo "Platform: $OS_NAME-$ARCH_NAME"
+rm -rf "$TMP_DIR"
+
+echo "buffman v${BUFFMAN_VERSION} installed to ${INSTALL_DIR}/buffman"
