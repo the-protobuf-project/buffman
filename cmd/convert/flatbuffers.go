@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/machanirobotics/buffman/internal/options"
-	"github.com/machanirobotics/buffman/internal/parser"
+	"github.com/the-protobuf-project/buffman/internal/options"
+	"github.com/the-protobuf-project/buffman/internal/parser"
 	"github.com/spf13/cobra"
 )
 

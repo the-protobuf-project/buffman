@@ -34,7 +34,7 @@ case $ARCH in
 esac
 
 # Construct download URL
-DOWNLOAD_URL="https://github.com/machanirobotics/buffman/releases/download/v$BUFFMAN_VERSION/buffman-$OS_NAME-$ARCH_NAME-$BUFFMAN_VERSION"
+DOWNLOAD_URL="https://github.com/the-protobuf-project/buffman/releases/download/v$BUFFMAN_VERSION/buffman-$OS_NAME-$ARCH_NAME-$BUFFMAN_VERSION"
 
 echo "Downloading buffman for $OS_NAME-$ARCH_NAME..."
 echo "URL: $DOWNLOAD_URL"

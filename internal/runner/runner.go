@@ -7,9 +7,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/machanirobotics/buffman/internal/configuration"
-	"github.com/machanirobotics/buffman/internal/generate"
-	"github.com/machanirobotics/buffman/internal/parser"
+	"github.com/the-protobuf-project/buffman/internal/configuration"
+	"github.com/the-protobuf-project/buffman/internal/generate"
+	"github.com/the-protobuf-project/buffman/internal/parser"
 )
 
 // Runner defines the high-level interface for executing tasks based on a config file.

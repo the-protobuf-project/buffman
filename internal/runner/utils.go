@@ -5,13 +5,13 @@ import (
 	"path"
 	"strings"
 
-	"github.com/machanirobotics/buffman/internal/configuration"
-	"github.com/machanirobotics/buffman/internal/generate"
-	"github.com/machanirobotics/buffman/internal/generate/language"
-	"github.com/machanirobotics/buffman/internal/options"
-	"github.com/machanirobotics/buffman/internal/parser"
-	"github.com/machanirobotics/buffman/internal/remote"
-	"github.com/machanirobotics/buffman/internal/utilities"
+	"github.com/the-protobuf-project/buffman/internal/configuration"
+	"github.com/the-protobuf-project/buffman/internal/generate"
+	"github.com/the-protobuf-project/buffman/internal/generate/language"
+	"github.com/the-protobuf-project/buffman/internal/options"
+	"github.com/the-protobuf-project/buffman/internal/parser"
+	"github.com/the-protobuf-project/buffman/internal/remote"
+	"github.com/the-protobuf-project/buffman/internal/utilities"
 )
 
 // initializeRunner prepares the parser and generator managers and resolves

@@ -3,7 +3,7 @@
 // separated from others to prevent circular import dependencies.
 package options
 
-import "github.com/machanirobotics/buffman/internal/generate/language"
+import "github.com/the-protobuf-project/buffman/internal/generate/language"
 
 // GenerateOptions holds the configuration for a code generation task.
 // It specifies the input source directory and a map of language-specific

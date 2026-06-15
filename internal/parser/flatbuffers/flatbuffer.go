@@ -12,9 +12,9 @@ import (
 
 	"github.com/bufbuild/protocompile"
 	"github.com/bufbuild/protocompile/reporter"
-	"github.com/machanirobotics/buffman/internal/options"
-	"github.com/machanirobotics/buffman/internal/template"
-	"github.com/machanirobotics/buffman/internal/utilities"
+	"github.com/the-protobuf-project/buffman/internal/options"
+	"github.com/the-protobuf-project/buffman/internal/template"
+	"github.com/the-protobuf-project/buffman/internal/utilities"
 )
 
 // flatbufferCommentPrefix defines the line comment style for FlatBuffer files.

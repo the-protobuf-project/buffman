@@ -7,9 +7,9 @@ import (
 	"context"
 	"errors"
 
-	"github.com/machanirobotics/buffman/internal/options"
-	"github.com/machanirobotics/buffman/internal/parser/flatbuffers"
-	"github.com/machanirobotics/buffman/internal/parser/nanobuffers"
+	"github.com/the-protobuf-project/buffman/internal/options"
+	"github.com/the-protobuf-project/buffman/internal/parser/flatbuffers"
+	"github.com/the-protobuf-project/buffman/internal/parser/nanobuffers"
 )
 
 // ParserType represents the type of parser to use (e.g., "flatbuffers").

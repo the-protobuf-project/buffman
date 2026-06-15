@@ -9,9 +9,9 @@ import (
 	"path"
 	"strings"
 
-	"github.com/machanirobotics/buffman/internal/generate/language"
-	"github.com/machanirobotics/buffman/internal/template"
-	"github.com/machanirobotics/buffman/internal/utilities"
+	"github.com/the-protobuf-project/buffman/internal/generate/language"
+	"github.com/the-protobuf-project/buffman/internal/template"
+	"github.com/the-protobuf-project/buffman/internal/utilities"
 )
 
 // flatcCommand is the command-line template for invoking the FlatBuffers compiler (flatc).

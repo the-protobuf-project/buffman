@@ -5,8 +5,8 @@ import (
 	"context"
 	"strings"
 
-	"github.com/machanirobotics/buffman/internal/generate/language"
-	"github.com/machanirobotics/buffman/internal/options"
+	"github.com/the-protobuf-project/buffman/internal/generate/language"
+	"github.com/the-protobuf-project/buffman/internal/options"
 )
 
 // FlatbufferGenerate is the concrete implementation of the generate.Generate

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/machanirobotics/buffman/internal/runner"
+	"github.com/the-protobuf-project/buffman/internal/runner"
 	"github.com/spf13/cobra"
 )
 

@@ -1,4 +1,4 @@
-module github.com/machanirobotics/buffman
+module github.com/the-protobuf-project/buffman
 
 go 1.24.1
 

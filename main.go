@@ -1,7 +1,7 @@
 // package main is the entry point for the Buffman CLI application.
 package main
 
-import "github.com/machanirobotics/buffman/cmd"
+import "github.com/the-protobuf-project/buffman/cmd"
 
 // main is the primary entry point for the executable. It calls the Execute
 // function from the cmd package, which initializes and runs the Cobra

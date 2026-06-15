@@ -3,7 +3,7 @@ package install
 import (
 	"fmt"
 
-	"github.com/machanirobotics/buffman/internal/install/flatc"
+	"github.com/the-protobuf-project/buffman/internal/install/flatc"
 )
 
 // BufferInstaller defines the type for different buffer package installers.

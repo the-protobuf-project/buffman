@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/machanirobotics/buffman/internal/configuration"
-	"github.com/machanirobotics/buffman/internal/generate"
-	"github.com/machanirobotics/buffman/internal/generate/language"
-	"github.com/machanirobotics/buffman/internal/options"
+	"github.com/the-protobuf-project/buffman/internal/configuration"
+	"github.com/the-protobuf-project/buffman/internal/generate"
+	"github.com/the-protobuf-project/buffman/internal/generate/language"
+	"github.com/the-protobuf-project/buffman/internal/options"
 	"github.com/spf13/cobra"
 )
 

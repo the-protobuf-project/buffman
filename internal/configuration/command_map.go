@@ -5,8 +5,8 @@
 package configuration
 
 import (
-	"github.com/machanirobotics/buffman/internal"
-	"github.com/machanirobotics/buffman/internal/generate/language"
+	"github.com/the-protobuf-project/buffman/internal"
+	"github.com/the-protobuf-project/buffman/internal/generate/language"
 )
 
 // Subcommand represents an abstract command-line option concept, such as
@@ -53,7 +53,7 @@ var CommandOptionsMap = map[language.Language]map[string]CommandOptions{
 			Options: map[Subcommand]ToolOption{
 				Pkg: {
 					Description: `Specifies the Go package name, often used as a file option. ` +
-						`Example: go_package = "github.com/machanirobotics/buffman/examples/go/fb"`,
+						`Example: go_package = "github.com/the-protobuf-project/buffman/examples/go/fb"`,
 				},
 			},
 		},
@@ -64,7 +64,7 @@ var CommandOptionsMap = map[language.Language]map[string]CommandOptions{
 				Pkg: {
 					Flag: "--go-module-name",
 					Description: `Specifies the Go module name when generating FlatBuffers code. ` +
-						`Example: --go-module-name github.com/machanirobotics/buffman/examples/go/fb`,
+						`Example: --go-module-name github.com/the-protobuf-project/buffman/examples/go/fb`,
 				},
 			},
 		},
@@ -77,7 +77,7 @@ var CommandOptionsMap = map[language.Language]map[string]CommandOptions{
 				Pkg: {
 					Flag: "--java-package-prefix",
 					Description: `Specifies the package prefix for generated Java code. ` +
-						`Example: --java-package-prefix com.machanirobotics.fb`,
+						`Example: --java-package-prefix com.the-protobuf-project.fb`,
 				},
 			},
 		},

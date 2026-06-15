@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/machanirobotics/buffman/internal"
-	"github.com/machanirobotics/buffman/internal/install"
+	"github.com/the-protobuf-project/buffman/internal"
+	"github.com/the-protobuf-project/buffman/internal/install"
 )
 
 // Template holds version information and comment generation

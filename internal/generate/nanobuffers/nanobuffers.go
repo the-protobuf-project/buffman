@@ -3,7 +3,7 @@ package nanobuffers
 import (
 	"context"
 
-	"github.com/machanirobotics/buffman/internal/options"
+	"github.com/the-protobuf-project/buffman/internal/options"
 )
 
 type NanobuffersGenerate struct {

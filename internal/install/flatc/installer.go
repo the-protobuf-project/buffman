@@ -10,7 +10,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/machanirobotics/buffman/internal/install/utilities"
+	"github.com/the-protobuf-project/buffman/internal/install/utilities"
 )
 
 // flatc specific variables (moved from previous example)

@@ -8,10 +8,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/machanirobotics/buffman/cmd/completion"
-	"github.com/machanirobotics/buffman/cmd/convert"
-	"github.com/machanirobotics/buffman/cmd/generate"
-	"github.com/machanirobotics/buffman/internal/install"
+	"github.com/the-protobuf-project/buffman/cmd/completion"
+	"github.com/the-protobuf-project/buffman/cmd/convert"
+	"github.com/the-protobuf-project/buffman/cmd/generate"
+	"github.com/the-protobuf-project/buffman/internal/install"
 	"github.com/spf13/cobra"
 )
 

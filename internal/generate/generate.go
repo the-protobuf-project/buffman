@@ -7,9 +7,9 @@ import (
 	"context"
 	"errors"
 
-	"github.com/machanirobotics/buffman/internal/generate/flatbuffers"
-	"github.com/machanirobotics/buffman/internal/generate/nanobuffers"
-	"github.com/machanirobotics/buffman/internal/options"
+	"github.com/the-protobuf-project/buffman/internal/generate/flatbuffers"
+	"github.com/the-protobuf-project/buffman/internal/generate/nanobuffers"
+	"github.com/the-protobuf-project/buffman/internal/options"
 )
 
 // GenerateType defines the type of code generator, used by the factory to

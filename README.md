@@ -32,7 +32,7 @@ You can install Buffman in three ways:
    Visit the [Releases page](releases/) and download the binary for your OS.
 
    ```bash
-   curl -sSL https://raw.githubusercontent.com/machanirobotics/buffman/main/scripts/install.sh | bash
+   curl -sSL https://raw.githubusercontent.com/the-protobuf-project/buffman/main/scripts/install.sh | bash
    ```
 
 2. **Build from Source**
@@ -240,10 +240,6 @@ plugins:
 
 ## License
 
-Copyright © 2025 Machani Robotics
+Copyright © 2025 The Protobuf Project
 
 Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.
-
----
-<strong>Built with ❤️ by Machani Robotics</strong>
-| Open Source Serialization and Deserialization for Everyone

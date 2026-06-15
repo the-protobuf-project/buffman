@@ -8,8 +8,8 @@ import (
 	"path"
 	"strings"
 
-	"github.com/machanirobotics/buffman/internal/options"
-	"github.com/machanirobotics/buffman/internal/utilities"
+	"github.com/the-protobuf-project/buffman/internal/options"
+	"github.com/the-protobuf-project/buffman/internal/utilities"
 )
 
 const nanobuffersCmd = "nanopb %s -D %s %s" // include paths, directory, glob path of the protofiles

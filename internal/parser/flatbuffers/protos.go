@@ -13,7 +13,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/machanirobotics/buffman/internal/utilities"
+	"github.com/the-protobuf-project/buffman/internal/utilities"
 )
 
 var excludePatterns = []string{"google/api", "google/protobuf/descriptor.proto"}
