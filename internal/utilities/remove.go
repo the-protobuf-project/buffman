@@ -30,7 +30,7 @@ func RemoveGoogleAPI(ctx context.Context, compiler *protocompile.Compiler, files
 
 		// Write package
 		if fd.Package() != "" {
-			builder.WriteString(fmt.Sprintf("package %s;\n\n", fd.Package()))
+			fmt.Fprintf(&builder, "package %s;\n\n", fd.Package())
 		}
 
 		// Write imports excluding Google API imports and google/protobuf/descriptor.proto
@@ -42,7 +42,7 @@ func RemoveGoogleAPI(ctx context.Context, compiler *protocompile.Compiler, files
 			// Skip google/api imports and google/protobuf/descriptor.proto
 			if !strings.HasPrefix(importPath, "google/api") &&
 				!strings.Contains(importPath, "google/protobuf/descriptor.proto") {
-				builder.WriteString(fmt.Sprintf("import \"%s\";\n", importPath))
+				fmt.Fprintf(&builder, "import \"%s\";\n", importPath)
 				hasImports = true
 			}
 		}
@@ -54,16 +54,16 @@ func RemoveGoogleAPI(ctx context.Context, compiler *protocompile.Compiler, files
 		opts := fd.Options().(*descriptorpb.FileOptions)
 		if opts != nil {
 			if opts.GoPackage != nil {
-				builder.WriteString(fmt.Sprintf("option go_package = \"%s\";\n", *opts.GoPackage))
+				fmt.Fprintf(&builder, "option go_package = \"%s\";\n", *opts.GoPackage)
 			}
 			if opts.JavaMultipleFiles != nil {
-				builder.WriteString(fmt.Sprintf("option java_multiple_files = %t;\n", *opts.JavaMultipleFiles))
+				fmt.Fprintf(&builder, "option java_multiple_files = %t;\n", *opts.JavaMultipleFiles)
 			}
 			if opts.JavaOuterClassname != nil {
-				builder.WriteString(fmt.Sprintf("option java_outer_classname = \"%s\";\n", *opts.JavaOuterClassname))
+				fmt.Fprintf(&builder, "option java_outer_classname = \"%s\";\n", *opts.JavaOuterClassname)
 			}
 			if opts.JavaPackage != nil {
-				builder.WriteString(fmt.Sprintf("option java_package = \"%s\";\n", *opts.JavaPackage))
+				fmt.Fprintf(&builder, "option java_package = \"%s\";\n", *opts.JavaPackage)
 			}
 		}
 		builder.WriteString("\n")
@@ -71,22 +71,19 @@ func RemoveGoogleAPI(ctx context.Context, compiler *protocompile.Compiler, files
 		// Write enums
 		enums := fd.Enums()
 		for i := 0; i < enums.Len(); i++ {
-			enum := enums.Get(i)
-			writeEnum(&builder, enum)
+			writeEnum(&builder, enums.Get(i))
 		}
 
 		// Write messages
 		messages := fd.Messages()
 		for i := 0; i < messages.Len(); i++ {
-			msg := messages.Get(i)
-			writeMessage(&builder, msg, 0)
+			writeMessage(&builder, messages.Get(i), 0)
 		}
 
-		// Write services - special handling for google/longrunning
+		// Write services
 		services := fd.Services()
 		for i := 0; i < services.Len(); i++ {
-			svc := services.Get(i)
-			writeService(&builder, svc, fd)
+			writeService(&builder, services.Get(i), fd)
 		}
 
 		// Store the built proto content in map with key as outputDir + fd.Path()
@@ -99,11 +96,11 @@ func RemoveGoogleAPI(ctx context.Context, compiler *protocompile.Compiler, files
 
 // writeEnum writes an enum definition to the builder
 func writeEnum(builder *strings.Builder, enum protoreflect.EnumDescriptor) {
-	builder.WriteString(fmt.Sprintf("enum %s {\n", enum.Name()))
+	fmt.Fprintf(builder, "enum %s {\n", enum.Name())
 	values := enum.Values()
 	for i := 0; i < values.Len(); i++ {
 		value := values.Get(i)
-		builder.WriteString(fmt.Sprintf("  %s = %d;\n", value.Name(), value.Number()))
+		fmt.Fprintf(builder, "  %s = %d;\n", value.Name(), value.Number())
 	}
 	builder.WriteString("}\n\n")
 }
@@ -112,26 +109,26 @@ func writeEnum(builder *strings.Builder, enum protoreflect.EnumDescriptor) {
 func writeMessage(builder *strings.Builder, msg protoreflect.MessageDescriptor, indent int) {
 	indentStr := strings.Repeat("  ", indent)
 
-	builder.WriteString(fmt.Sprintf("%smessage %s {\n", indentStr, msg.Name()))
+	fmt.Fprintf(builder, "%smessage %s {\n", indentStr, msg.Name())
 
 	// Write nested enums
 	nestedEnums := msg.Enums()
 	for i := 0; i < nestedEnums.Len(); i++ {
 		nestedEnum := nestedEnums.Get(i)
-		builder.WriteString(fmt.Sprintf("%s  enum %s {\n", indentStr, nestedEnum.Name()))
+		fmt.Fprintf(builder, "%s  enum %s {\n", indentStr, nestedEnum.Name())
 		values := nestedEnum.Values()
 		for j := 0; j < values.Len(); j++ {
 			value := values.Get(j)
-			builder.WriteString(fmt.Sprintf("%s    %s = %d;\n", indentStr, value.Name(), value.Number()))
+			fmt.Fprintf(builder, "%s    %s = %d;\n", indentStr, value.Name(), value.Number())
 		}
-		builder.WriteString(fmt.Sprintf("%s  }\n\n", indentStr))
+		fmt.Fprintf(builder, "%s  }\n\n", indentStr)
 	}
 
 	// Write oneofs
 	oneofs := msg.Oneofs()
 	for i := 0; i < oneofs.Len(); i++ {
 		oneof := oneofs.Get(i)
-		builder.WriteString(fmt.Sprintf("%s  oneof %s {\n", indentStr, oneof.Name()))
+		fmt.Fprintf(builder, "%s  oneof %s {\n", indentStr, oneof.Name())
 		fields := msg.Fields()
 		for j := 0; j < fields.Len(); j++ {
 			field := fields.Get(j)
@@ -139,7 +136,7 @@ func writeMessage(builder *strings.Builder, msg protoreflect.MessageDescriptor, 
 				writeField(builder, field, indent+2)
 			}
 		}
-		builder.WriteString(fmt.Sprintf("%s  }\n", indentStr))
+		fmt.Fprintf(builder, "%s  }\n", indentStr)
 	}
 
 	// Write regular fields (not in oneofs)
@@ -154,28 +151,25 @@ func writeMessage(builder *strings.Builder, msg protoreflect.MessageDescriptor, 
 	// Write nested messages
 	nestedMessages := msg.Messages()
 	for i := 0; i < nestedMessages.Len(); i++ {
-		nested := nestedMessages.Get(i)
-		writeMessage(builder, nested, indent+1)
+		writeMessage(builder, nestedMessages.Get(i), indent+1)
 	}
 
-	builder.WriteString(fmt.Sprintf("%s}\n\n", indentStr))
+	fmt.Fprintf(builder, "%s}\n\n", indentStr)
 }
 
 // writeField writes a field definition to the builder
 func writeField(builder *strings.Builder, field protoreflect.FieldDescriptor, indent int) {
 	indentStr := strings.Repeat("  ", indent)
 	fieldType := getFieldType(field)
-	builder.WriteString(fmt.Sprintf("%s%s %s = %d;\n",
-		indentStr, fieldType, field.Name(), field.Number()))
+	fmt.Fprintf(builder, "%s%s %s = %d;\n", indentStr, fieldType, field.Name(), field.Number())
 }
 
 // writeService writes a service definition to the builder
 func writeService(builder *strings.Builder, svc protoreflect.ServiceDescriptor, fd protoreflect.FileDescriptor) {
-	builder.WriteString(fmt.Sprintf("service %s {\n", svc.Name()))
+	fmt.Fprintf(builder, "service %s {\n", svc.Name())
 	methods := svc.Methods()
 	for i := 0; i < methods.Len(); i++ {
-		method := methods.Get(i)
-		writeMethod(builder, method)
+		writeMethod(builder, methods.Get(i))
 	}
 	builder.WriteString("}\n\n")
 }
@@ -229,11 +223,9 @@ func getFieldType(field protoreflect.FieldDescriptor) string {
 	case protoreflect.BytesKind:
 		baseType = "bytes"
 	case protoreflect.MessageKind:
-		msgDesc := field.Message()
-		baseType = getFullMessageName(msgDesc)
+		baseType = getFullMessageName(field.Message())
 	case protoreflect.EnumKind:
-		enumDesc := field.Enum()
-		baseType = getFullEnumName(enumDesc)
+		baseType = getFullEnumName(field.Enum())
 	default:
 		baseType = "string"
 	}
