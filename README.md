@@ -15,38 +15,45 @@ It currently supports two plugin types:
 > This project is under active development. APIs, configurations, and features may change without notice. Use with caution in production environments.
 
 - [Buffman](#buffman)
-   * [Installation](#installation)
-   * [Quickstart](#quickstart)
-   * [Commands](#commands)
-   * [Configuration](#configuration)
-   * [Examples](#examples)
-      + [Minimal example](#minimal-example)
-      + [Multi-language production example](#multi-language-production-example)
-   * [License](#license)
+  - [Installation](#installation)
+  - [Quickstart](#quickstart)
+  - [Commands](#commands)
+  - [Configuration](#configuration)
+  - [Examples](#examples)
+    - [Minimal example](#minimal-example)
+    - [Multi-language production example](#multi-language-production-example)
+  - [License](#license)
 
 ## Installation
 
-You can install Buffman in three ways:
+You can install Buffman in four ways:
 
-1. **Download Precompiled Binary**  
-   Visit the [Releases page](releases/) and download the binary for your OS.
+1. **Homebrew** (macOS / Linux)
+
+   ```bash
+   brew install the-protobuf-project/tap/buffman
+   ```
+
+2. **curl installer**
 
    ```bash
    curl -sSL https://raw.githubusercontent.com/the-protobuf-project/buffman/main/scripts/install.sh | bash
    ```
 
-2. **Build from Source**
+   Visit the [Releases page](https://github.com/the-protobuf-project/buffman/releases) to download a specific version.
+
+3. **Build from Source**
 
    ```bash
-   git clone https://github.com/your-org/buffman.git
+   git clone https://github.com/the-protobuf-project/buffman.git
    cd buffman
-   go build -o buffman main.go
+   go build -o buffman .
    ```
 
-3. **Docker Image**
+4. **Docker Image**
 
    ```bash
-   docker pull ghcr.io/tarran-sidhaarth/buffman:latest
+   docker pull ghcr.io/the-protobuf-project/buffman:latest
    ```
 
 > [!TIP]
@@ -95,7 +102,7 @@ Or use Docker:
 docker run --rm \
     -v $(pwd):/buffman \
     -w /buffman \
-    ghcr.io/tarran-sidhaarth/buffman:latest generate -f /buffman/buffman.yml
+    ghcr.io/the-protobuf-project/buffman:latest generate -f /buffman/buffman.yml
 ```
 
 > [!NOTE]
@@ -174,15 +181,18 @@ plugins:
 ```
 
 - `inputs` define your schema sources.
-- `plugins` define how `.proto` files are converted and which targets are generated.
+- `plugins` define how `.proto` files are converted and which language targets to generate.
 - `flatbuffers` supports multiple `languages` with optional config per target.
 - `nanobuffers` is **C-only**, so it does not require a `languages` field.
-- `plugins` define how `.proto` files are converted and which language targets to generate.
 - `opt` is required only for `go` (`go_package`) and `java` (`java_package_prefix`).
 
 ## Examples
 
+The [examples/](examples/) directory contains ready-to-run `.proto` schemas and pre-generated output for every supported language.
+
 ### Minimal example
+
+Single language (Go) — the simplest possible config:
 
 ```yaml
 version: v1
@@ -198,9 +208,6 @@ plugins:
         out: "./generated/go"
         opt:
           - go_package=github.com/username/project/fb
-
-  - name: nanobuffers
-    out: "./nano"
 ```
 
 ### Multi-language production example
@@ -238,8 +245,10 @@ plugins:
     out: "./build/nano"
 ```
 
+See [examples/configs/](examples/configs/) for all-languages and other ready-to-use configs.
+
 ## License
 
-Copyright © 2025 The Protobuf Project
+Copyright © 2026 The Protobuf Project
 
 Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.

@@ -1,0 +1,14 @@
+version: v1
+
+inputs:
+  - name: source
+    path: "./protos"
+
+plugins:
+  - name: flatbuffers
+    out: "./flatbuffers"
+    languages:
+      - language: go
+        out: "./go/fb"
+        opt:
+          - go_package=example.com/buffman/fb

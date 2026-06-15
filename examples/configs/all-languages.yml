@@ -1,0 +1,49 @@
+version: v1
+
+inputs:
+  - name: source
+    path: "./protos"
+
+plugins:
+  - name: flatbuffers
+    out: "./flatbuffers"
+    languages:
+      - language: cpp
+        out: "./cpp"
+
+      - language: go
+        out: "./go/fb"
+        opt:
+          - go_package=example.com/buffman/fb
+
+      - language: java
+        out: "./java"
+        opt:
+          - java_package_prefix=com.fb
+
+      - language: kotlin
+        out: "./kotlin"
+
+      - language: php
+        out: "./php"
+
+      - language: swift
+        out: "./swift"
+
+      - language: dart
+        out: "./dart"
+
+      - language: csharp
+        out: "./csharp"
+
+      - language: python
+        out: "./python"
+
+      - language: rust
+        out: "./rust"
+
+      - language: ts
+        out: "./ts"
+
+  - name: nanobuffers
+    out: "./nanobuffers"
