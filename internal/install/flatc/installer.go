@@ -81,7 +81,11 @@ func (f *FlatbuffersInstaller) Install() error {
 	if err != nil {
 		return fmt.Errorf("failed to download flatc: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			fmt.Fprintf(os.Stderr, "error closing response body: %v\n", err)
+		}
+	}()
 
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("failed to download flatc, status code: %d", resp.StatusCode)
@@ -91,20 +95,30 @@ func (f *FlatbuffersInstaller) Install() error {
 	if err != nil {
 		return fmt.Errorf("failed to create temporary directory for flatc: %w", err)
 	}
-	defer os.RemoveAll(tempDir) // Clean up temp directory
+	defer func() {
+		if err := os.RemoveAll(tempDir); err != nil {
+			fmt.Fprintf(os.Stderr, "error removing temp directory: %v\n", err)
+		}
+	}()
 
 	zipFilePath := filepath.Join(tempDir, "flatc.zip")
 	out, err := os.Create(zipFilePath)
 	if err != nil {
 		return fmt.Errorf("failed to create flatc zip file: %w", err)
 	}
-	defer out.Close()
+	defer func() {
+		if err := out.Close(); err != nil {
+			fmt.Fprintf(os.Stderr, "error closing zip file: %v\n", err)
+		}
+	}()
 
 	_, err = io.Copy(out, resp.Body)
 	if err != nil {
 		return fmt.Errorf("failed to save downloaded flatc file: %w", err)
 	}
-	out.Close() // Close the file before opening for unzipping
+	if err := out.Close(); err != nil {
+		return fmt.Errorf("failed to close zip file before extraction: %w", err)
+	}
 
 	fmt.Printf("Extracting %s...\n", zipFilePath)
 	err = utilities.Unzip(zipFilePath, tempDir)
@@ -139,16 +153,17 @@ func (f *FlatbuffersInstaller) Install() error {
 	}
 
 	extractedFlatcPath := ""
-	filepath.Walk(tempDir, func(path string, info os.FileInfo, err error) error {
+	if err := filepath.Walk(tempDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if !info.IsDir() && info.Name() == flatcExecutableName {
 			extractedFlatcPath = path
-			return nil // Found it, stop walking
 		}
 		return nil
-	})
+	}); err != nil {
+		return fmt.Errorf("failed to locate flatc executable in archive: %w", err)
+	}
 
 	if extractedFlatcPath == "" {
 		return fmt.Errorf("flatc executable not found in the extracted archive")

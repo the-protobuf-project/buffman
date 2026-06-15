@@ -56,7 +56,7 @@ Examples:
 		// fallback message for clarity.
 		if lang == "" || targetDir == "" {
 			fmt.Println("Error: please specify both --language and --target_dir flags.")
-			cmd.Help()
+			_ = cmd.Help()
 			return
 		}
 		handleGenerate(lang, targetDir, flatbuffersDir, moduleOptions)
@@ -71,8 +71,12 @@ func init() {
 	flatbuffersCmd.Flags().StringVarP(&moduleOptions, "module_options", "m", "", "Language-specific options (e.g., Go package path or Java package name)")
 
 	// Mark flags as mandatory for command execution.
-	flatbuffersCmd.MarkFlagRequired("language")
-	flatbuffersCmd.MarkFlagRequired("target_dir")
+	if err := flatbuffersCmd.MarkFlagRequired("language"); err != nil {
+		panic(err)
+	}
+	if err := flatbuffersCmd.MarkFlagRequired("target_dir"); err != nil {
+		panic(err)
+	}
 }
 
 // handleGenerate orchestrates the code generation process. It creates a generator

@@ -46,7 +46,7 @@ It can be used in two main ways:
 		if buffmanConfigPath != "" {
 			handleWithConfig(buffmanConfigPath)
 		} else {
-			cmd.Help()
+			_ = cmd.Help()
 		}
 	},
 }

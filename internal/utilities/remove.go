@@ -26,7 +26,7 @@ func RemoveGoogleAPI(ctx context.Context, compiler *protocompile.Compiler, files
 			continue
 		}
 		// Write syntax
-		builder.WriteString(fmt.Sprintf("syntax = \"%s\";\n\n", fd.Syntax()))
+		fmt.Fprintf(&builder, "syntax = \"%s\";\n\n", fd.Syntax())
 
 		// Write package
 		if fd.Package() != "" {

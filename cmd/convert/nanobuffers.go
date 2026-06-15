@@ -56,5 +56,7 @@ func init() {
 	nanobuffersCmd.Flags().StringVarP(&nanobufferDir, "output_dir", "o", "./", "Output directory for the generated Nanobuffer (.nanobuf) files")
 
 	// Mark the proto_dir flag as mandatory for command execution.
-	nanobuffersCmd.MarkFlagRequired("proto_dir")
+	if err := nanobuffersCmd.MarkFlagRequired("proto_dir"); err != nil {
+		panic(err)
+	}
 }

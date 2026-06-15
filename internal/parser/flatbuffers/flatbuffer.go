@@ -91,7 +91,7 @@ func (c *FlatbuffersParser) Parse(ctx context.Context, opts options.ParseOptions
 func (c *FlatbuffersParser) processFiles(ctx context.Context, protoFiles []string, t *template.Template) *FileProcessingReport {
 	report := NewFileProcessingReport()
 	for _, protoFile := range protoFiles {
-		fbsPath := path.Join(c.flatbufferDir, strings.Replace(protoFile, ".proto", ".fbs", -1))
+		fbsPath := path.Join(c.flatbufferDir, strings.ReplaceAll(protoFile, ".proto", ".fbs"))
 
 		if err := c.convertProtoFile(ctx, protoFile); err != nil {
 			report.recordFailure(protoFile, fmt.Sprintf("✗ Failed to convert %s: %v", protoFile, err))

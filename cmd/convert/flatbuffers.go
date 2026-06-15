@@ -57,5 +57,7 @@ func init() {
 	flatbuffersCmd.Flags().StringVarP(&flatbufferDir, "output_dir", "o", "./", "Output directory for the generated FlatBuffer (.fbs) files")
 
 	// Mark the proto_dir flag as mandatory for command execution.
-	flatbuffersCmd.MarkFlagRequired("proto_dir")
+	if err := flatbuffersCmd.MarkFlagRequired("proto_dir"); err != nil {
+		panic(err)
+	}
 }

@@ -150,13 +150,21 @@ func copyFile(src, dst string) error {
 	if err != nil {
 		return err
 	}
-	defer sourceFile.Close()
+	defer func() {
+		if err := sourceFile.Close(); err != nil {
+			fmt.Fprintf(os.Stderr, "error closing source file: %v\n", err)
+		}
+	}()
 
 	destFile, err := os.Create(dst)
 	if err != nil {
 		return err
 	}
-	defer destFile.Close()
+	defer func() {
+		if err := destFile.Close(); err != nil {
+			fmt.Fprintf(os.Stderr, "error closing destination file: %v\n", err)
+		}
+	}()
 
 	_, err = destFile.ReadFrom(sourceFile)
 	return err
