@@ -1,0 +1,3 @@
+# Map custom extension to Protocol Buffer
+*.proto linguist-language=Protocol Buffer
+*.fbs linguist-language=FlatBuffers
