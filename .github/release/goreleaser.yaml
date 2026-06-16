@@ -91,6 +91,10 @@ release:
   github:
     owner: the-protobuf-project
     name: buffman
+  # Delete and re-upload assets that already exist on the release, so re-running
+  # a release on the same tag (e.g. after a partial/failed run) is idempotent
+  # instead of failing with GitHub's 422 "already_exists" error.
+  replace_existing_artifacts: true
   draft: false
   prerelease: auto
   name_template: 'v{{.Version}}'
