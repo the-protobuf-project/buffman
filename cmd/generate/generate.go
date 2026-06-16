@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/the-protobuf-project/buffman/internal/runner"
 	"github.com/spf13/cobra"
+	"github.com/the-protobuf-project/buffman/internal/runner"
 )
 
 // buffmanConfigPath holds the path to the buffman.yaml configuration file,

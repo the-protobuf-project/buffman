@@ -67,25 +67,31 @@ changelog:
       - '^chore:'
       - typo
 
-# Homebrew formula, generated and committed to the tap on each release.
+# Homebrew cask, generated and committed to the tap on each release.
+# (Replaces the deprecated `brews:` formula config, removed in GoReleaser v2.16.)
 # The url + sha256 for every platform are filled in automatically from the
 # archives above, so there is no checksum to hand-maintain.
-brews:
+homebrew_casks:
   - name: buffman
+    binary: buffman
     repository:
       owner: the-protobuf-project
       name: homebrew-tap
       token: '{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}'
-    directory: Formula
+    directory: Casks
     homepage: 'https://github.com/the-protobuf-project/buffman'
     description: 'CLI tool that wraps flatc to convert .proto files to .fbs and generate multi-language code from a declarative YAML config'
     license: "Apache-2.0"
     ids:
       - buffman-archive
-    install: |
-      bin.install "buffman"
-    test: |
-      system "#{bin}/buffman", "--help"
+    # The binary is not signed/notarized, so strip the macOS quarantine
+    # attribute on install to stop Gatekeeper blocking it on first run.
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/buffman"]
+          end
 
 release:
   github:
